@@ -21,23 +21,6 @@ HunterGate(
     SHA1 "65c8f2292566aedb2fe10e08e09c74dda8e5d07a"
 )
 
-#[[include(hunter_add_version)
-include(hunter_cacheable)
-include(hunter_cmake_args)
-include(hunter_download)
-include(hunter_pick_scheme)
-
-hunter_add_version(
-    PACKAGE_NAME
-    asdfasdf
-    VERSION
-    "3.2-p0"
-    URL
-    "https://github.com/hunter-packages/glfw/archive/3.2-p0.tar.gz"
-    SHA1
-    90f91bab3020db15a0fc07c27c53095fa2dbf1b3
-)]]
-
 # ================== TESTS ==================
 
 project("Unit-Tests")
@@ -51,9 +34,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     Catch2::Catch
 )
-target_compile_features(${PROJECT_NAME} 
-    ${JFC_CXX_COMPILER_FEATURE_REQUIREMENTS}
-)
+target_compile_features(${PROJECT_NAME} ${JFC_CXX_COMPILER_FEATURE_REQUIREMENTS})
 add_test(${PROJECT_NAME} ${PROJECT_NAME})
 
 # ================== PROJECT ==================
@@ -74,9 +55,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build
     RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build
 )
-target_compile_features(${PROJECT_NAME} 
-    ${JFC_CXX_COMPILER_FEATURE_REQUIREMENTS}
-)
+target_compile_features(${PROJECT_NAME} ${JFC_CXX_COMPILER_FEATURE_REQUIREMENTS})
 
 # ================== GENERATED HEADER ==================
 
