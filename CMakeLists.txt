@@ -42,10 +42,13 @@ add_test(${PROJECT_NAME} ${PROJECT_NAME})
 project("Hunter-Reference")
 hunter_add_package(glfw)
 find_package(glfw3 CONFIG REQUIRED)
-add_executable(${PROJECT_NAME}
-    ${PROJECT_SOURCE_DIR}/src/main.cpp
+#add_executable(${PROJECT_NAME}
+add_library(${PROJECT_NAME} STATIC
+    #${PROJECT_SOURCE_DIR}/src/main.cpp
+    ${PROJECT_SOURCE_DIR}/src/object.cpp
 )
 target_include_directories(${PROJECT_NAME} PRIVATE
+    ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}
 )
 target_link_libraries(${PROJECT_NAME} 
     glfw
