@@ -13,6 +13,8 @@ namespace hunterreference
 
     public:
         int getSecret() const;
+
+        void runGraphicsTest();
     };
 }
 

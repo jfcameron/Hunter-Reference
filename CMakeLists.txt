@@ -16,10 +16,13 @@ if (NOT JFC_TARGET_PLATFORM)
 endif()
 
 include("cmake/HunterGate.cmake")
-HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.20.31.tar.gz"
-    SHA1 "65c8f2292566aedb2fe10e08e09c74dda8e5d07a"
-)
+
+if(NOT EXISTS ${HUNTER_ENABLED})
+    HunterGate(
+        URL "https://github.com/ruslo/hunter/archive/v0.20.31.tar.gz"
+        SHA1 "65c8f2292566aedb2fe10e08e09c74dda8e5d07a"
+    )
+endif()
 
 # ================== TESTS ==================
 
@@ -42,9 +45,7 @@ add_test(${PROJECT_NAME} ${PROJECT_NAME})
 project("Hunter-Reference" VERSION "0.0.1" DESCRIPTION "has no description!")
 hunter_add_package(glfw)
 find_package(glfw3 CONFIG REQUIRED)
-#add_executable(${PROJECT_NAME}
 add_library(${PROJECT_NAME} STATIC
-    #${PROJECT_SOURCE_DIR}/src/main.cpp
     ${PROJECT_SOURCE_DIR}/src/object.cpp
 )
 target_include_directories(${PROJECT_NAME} PRIVATE
