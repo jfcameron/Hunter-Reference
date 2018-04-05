@@ -46,7 +46,7 @@ project("Hunter-Reference" VERSION "0.0.1" DESCRIPTION "has no description!")
 hunter_add_package(glfw)
 find_package(glfw3 CONFIG REQUIRED)
 add_library(${PROJECT_NAME} STATIC
-    ${PROJECT_SOURCE_DIR}/src/object.cpp
+    ${PROJECT_SOURCE_DIR}/src/DemoGLWindow.cpp
 )
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}
