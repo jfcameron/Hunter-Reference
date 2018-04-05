@@ -8,7 +8,7 @@
 
 using namespace gfx;
 
-namespace 
+namespace
 {
     long int INSTANCE_COUNT(0);
 
