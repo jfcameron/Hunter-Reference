@@ -1,5 +1,6 @@
 #include "DemoGLWindow.h"
 
+#include <functional>
 #include <iostream>
 #include <stdexcept>
 
@@ -9,7 +10,7 @@ using namespace gfx;
 
 namespace 
 {
-    long int INSTANCE_COUNT = 0;
+    long int INSTANCE_COUNT(0);
 
     void tryInitializeLibGLFW()
     {
@@ -23,47 +24,53 @@ namespace
 }
 
 DemoGLWindow::DemoGLWindow()
-: pWindow([]()
-{
-    tryInitializeLibGLFW();
-
-    if (GLFWwindow *const pWindow = glfwCreateWindow(640, 480, "OpenGL < 2.0 demo", NULL, NULL))
+: m_pWindow(
+    []()
     {
-        glfwMakeContextCurrent(pWindow);
-        glfwSwapInterval(1);
+        tryInitializeLibGLFW();
 
-        glfwSetErrorCallback([](const int error, const char *const description) 
+        if (GLFWwindow *const pWindow = glfwCreateWindow(640, 480, "OpenGL < 2.0 demo", NULL, NULL))
         {
-            std::cerr << description << std::endl;
-        });
+            glfwMakeContextCurrent(pWindow);
+            glfwSwapInterval(1);
 
-        glfwSetKeyCallback(pWindow, [](GLFWwindow *const pWindow, const int key, const int scancode, const int action, const int mods) 
-        {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(pWindow, GL_TRUE);
-        });
+            glfwSetErrorCallback([](const int error, const char *const description) 
+            {
+                std::cerr << description << std::endl;
+            });
 
-        return pWindow;
+            glfwSetKeyCallback(pWindow, [](GLFWwindow *const pWindow, const int key, const int scancode, const int action, const int mods) 
+            {
+                if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(pWindow, GL_TRUE);
+            });
+
+            return pWindow;
+        }
+        else throw std::runtime_error("Could not create a window!");
+    }(), 
+    [](GLFWwindow *const pWindow)
+    {
+        glfwDestroyWindow(pWindow);   
     }
-    else throw std::runtime_error("Could not create a window!");
-}())
+)
 {}
 
 DemoGLWindow::~DemoGLWindow()
 {
-    glfwDestroyWindow(pWindow);
-
     if (!INSTANCE_COUNT--) glfwTerminate();
 }
 
 bool DemoGLWindow::shouldClose() const
 {
-    return glfwWindowShouldClose(pWindow);
+    return glfwWindowShouldClose(m_pWindow.get());
 }
 
 void DemoGLWindow::update() const
 {
+    glfwMakeContextCurrent(m_pWindow.get());
+
     int width, height;
-    glfwGetFramebufferSize(pWindow, &width, &height);
+    glfwGetFramebufferSize(m_pWindow.get(), &width, &height);
             
     const float ratio = width / (float)height;
 
@@ -87,6 +94,6 @@ void DemoGLWindow::update() const
     glVertex3f(0.f, 0.6f, 0.f);
     glEnd();
 
-    glfwSwapBuffers(pWindow);
+    glfwSwapBuffers(m_pWindow.get());
     glfwPollEvents();
 }
