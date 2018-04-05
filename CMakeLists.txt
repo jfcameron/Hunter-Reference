@@ -12,7 +12,7 @@ set(JFC_CXX_COMPILER_FEATURE_REQUIREMENTS PRIVATE
 )
 
 if (NOT JFC_TARGET_PLATFORM)
-    set(JFC_TARGET_PLATFORM ${CMAKE_HOST_SYSTEM_NAME}) #may need to follow project(). This works on 3.9.20170921-g46f7a, MacOS
+    set(JFC_TARGET_PLATFORM ${CMAKE_HOST_SYSTEM_NAME})
 endif()
 
 include("cmake/HunterGate.cmake")
